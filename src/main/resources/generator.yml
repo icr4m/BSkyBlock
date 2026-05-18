@@ -1,0 +1,34 @@
+# Cobblestone Generator configuration for BSkyBlock
+# The generator level is set automatically when a palier is claimed (via generator-level field in paliers.yml).
+# Weights are relative integers (higher = more likely to appear).
+# Custom blocks use ItemsAdder namespace:id format (requires ItemsAdder plugin).
+
+generator:
+  enabled: true
+
+  # Generator levels. Level 0 is the default (no palier claimed).
+  # Each level maps block keys to their relative weight.
+  levels:
+    0:
+      COBBLESTONE: 100
+
+    1:
+      COBBLESTONE: 70
+      IRON_ORE: 20
+      GOLD_ORE: 10
+
+    2:
+      COBBLESTONE: 50
+      IRON_ORE: 15
+      GOLD_ORE: 15
+      DIAMOND_ORE: 5
+      skyblock:jade_block: 15
+
+    3:
+      COBBLESTONE: 30
+      IRON_ORE: 15
+      GOLD_ORE: 10
+      DIAMOND_ORE: 10
+      EMERALD_ORE: 5
+      skyblock:jade_block: 20
+      skyblock:amethyst_ore: 10

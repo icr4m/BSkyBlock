@@ -14,7 +14,13 @@ import world.bentobox.bentobox.api.commands.island.DefaultPlayerCommand;
 import world.bentobox.bentobox.api.configuration.Config;
 import world.bentobox.bentobox.api.configuration.WorldSettings;
 import world.bentobox.bskyblock.commands.IslandAboutCommand;
+import world.bentobox.bskyblock.commands.island.IslandPaliersCommand;
 import world.bentobox.bskyblock.generators.ChunkGeneratorWorld;
+import world.bentobox.bskyblock.generators.CobblestoneGeneratorListener;
+import world.bentobox.bskyblock.paliers.PalierDataManager;
+import world.bentobox.bskyblock.paliers.PalierListener;
+import world.bentobox.bskyblock.paliers.PalierManager;
+import world.bentobox.bskyblock.paliers.PalierSettings;
 
 /**
  * Main BSkyBlock class - provides an island minigame in the sky
@@ -30,6 +36,11 @@ public class BSkyBlock extends GameModeAddon implements Listener {
     private Settings settings;
     private ChunkGeneratorWorld chunkGenerator;
     private final Config<Settings> configObject = new Config<>(this, Settings.class);
+
+    // Custom features
+    private PalierDataManager palierDataManager;
+    private PalierSettings palierSettings;
+    private PalierManager palierManager;
 
     @Override
     public void onLoad() {
@@ -48,6 +59,7 @@ public class BSkyBlock extends GameModeAddon implements Listener {
             {
                 super.setup();
                 new IslandAboutCommand(this);
+                new IslandPaliersCommand(this);
             }
         };
         adminCommand = new DefaultAdminCommand(this) {};
@@ -69,6 +81,15 @@ public class BSkyBlock extends GameModeAddon implements Listener {
     public void onEnable(){
         // Register this
         registerListener(this);
+
+        // Paliers
+        palierDataManager = new PalierDataManager(this);
+        palierSettings = new PalierSettings(this);
+        palierManager = new PalierManager(this, palierDataManager, palierSettings);
+        PalierListener.register(this, palierManager, palierSettings);
+
+        // Cobblestone generator
+        registerListener(new CobblestoneGeneratorListener(this));
     }
 
     @Override
@@ -89,6 +110,10 @@ public class BSkyBlock extends GameModeAddon implements Listener {
     public Settings getSettings() {
         return settings;
     }
+
+    public PalierDataManager getPalierDataManager() { return palierDataManager; }
+    public PalierSettings getPalierSettings() { return palierSettings; }
+    public PalierManager getPalierManager() { return palierManager; }
 
     @Override
     public void createWorlds() {

@@ -1,0 +1,63 @@
+# Paliers configuration for BSkyBlock
+# Each palier requires a minimum island level (from Level addon) and optionally items (cost).
+# Rewards: commands run as console (%player% = owner's name), generator-level sets the generator tier.
+# Colors: use & codes. Slots are 0-indexed inventory positions (GUI size: 27 slots).
+
+gui:
+  title: "&9&lPaliers"
+  size: 27
+
+messages:
+  notify-claimable: "&a✨ Un nouveau palier est disponible ! Faites &9/is paliers &apour le réclamer."
+  not-enough-level: "&cVotre île n'a pas encore atteint le niveau requis (&e%required%&c)."
+  cost-missing: "&cIl vous manque : &e%items%&c."
+  claimed-success: "&a✔ Palier réclamé : &e%name%&a!"
+
+paliers:
+  - id: 1
+    required-level: 100
+    name: "&9&lPalier I &8| &7Bronze"
+    lore:
+      - "&7Atteignez le &9level 100&7."
+      - "&7Récompense : &e1 000 coins"
+    slot: 10
+    icon: IRON_INGOT
+    # cost: items required to claim (vanilla Material or ItemsAdder namespace:id)
+    cost: []
+    # commands run by console on claim (%player% = island owner name)
+    commands:
+      - "eco give %player% 1000"
+    # sets generator level when claimed (0 = no change to generator)
+    generator-level: 1
+
+  - id: 2
+    required-level: 500
+    name: "&9&lPalier II &8| &7Argent"
+    lore:
+      - "&7Atteignez le &9level 500&7."
+      - "&7Coût : &e5 Diamants"
+      - "&7Récompense : &e5 000 coins"
+    slot: 12
+    icon: GOLD_INGOT
+    cost:
+      - type: DIAMOND
+        amount: 5
+    commands:
+      - "eco give %player% 5000"
+    generator-level: 2
+
+  - id: 3
+    required-level: 2000
+    name: "&9&lPalier III &8| &7Or"
+    lore:
+      - "&7Atteignez le &9level 2000&7."
+      - "&7Coût : &e10 skyblock:jade_fragment"
+      - "&7Récompense : &e20 000 coins"
+    slot: 14
+    icon: DIAMOND
+    cost:
+      - type: "skyblock:jade_fragment"
+        amount: 10
+    commands:
+      - "eco give %player% 20000"
+    generator-level: 3

@@ -8,6 +8,10 @@ repository: "BentoBoxWorld/BSkyBlock"
 
 authors: tastybento
 
+softdepend:
+  - Level
+  - ItemsAdder
+
 permissions:
 # Non-command permissions
   bskyblock.island.lock:
