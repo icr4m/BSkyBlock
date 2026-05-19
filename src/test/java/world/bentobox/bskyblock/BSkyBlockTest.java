@@ -103,7 +103,7 @@ class BSkyBlockTest extends CommonTestSetup {
                 }
             }
             // Add all resource files that onEnable might need via saveResource
-            for (String resource : new String[]{"paliers.yml", "generator.yml"}) {
+            for (String resource : new String[]{"paliers.yml", "generator.yml", "donate.yml"}) {
                 try (InputStream is = BSkyBlockTest.class.getResourceAsStream("/" + resource)) {
                     if (is != null) {
                         tempJarOutputStream.putNextEntry(new JarEntry(resource));

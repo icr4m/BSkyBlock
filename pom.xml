@@ -165,6 +165,13 @@
             <version>${bentobox.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- PlaceholderAPI -->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.12.2</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- MockBukkit -->
         <dependency>
             <groupId>com.github.MockBukkit</groupId>

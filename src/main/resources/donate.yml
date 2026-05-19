@@ -1,0 +1,69 @@
+# Donate configuration for BSkyBlock
+# Players donate items to earn honour for their island.
+# type: vanilla Material name OR ItemsAdder namespace:id
+# icon: (optional) GUI icon — defaults to type. Use a vanilla Material as fallback for ItemsAdder items.
+# amount: how many items are consumed per donation
+# honour: how much honour is added per donation
+# slot: 0-indexed GUI slot (gui.size defaults to 54)
+# Colors: use & codes.
+
+gui:
+  title: "&6&l✦ Donation d'Honneur"
+  size: 54
+
+messages:
+  no-island: "&cVous n'avez pas d'île."
+  donated: "&a✔ Don effectué : &e%amount%x %item%&a. &6+%honour% honneur &a(Total : &6%total%&a)"
+  not-enough-items: "&cIl vous manque &e%amount%x %item%&c dans votre inventaire."
+  honour-display: "&6⭐ Honneur de votre île : &e%honour%"
+
+items:
+  - type: COBBLESTONE
+    display-name: "&7Cobblestone"
+    lore:
+      - "&7La pierre de base du SkyBlock."
+    honour: 1
+    amount: 64
+    slot: 10
+
+  - type: IRON_INGOT
+    display-name: "&fLingot de Fer"
+    lore:
+      - "&7Un métal utile."
+    honour: 5
+    amount: 16
+    slot: 12
+
+  - type: GOLD_INGOT
+    display-name: "&6Lingot d'Or"
+    lore:
+      - "&7Précieux et brillant."
+    honour: 15
+    amount: 8
+    slot: 14
+
+  - type: DIAMOND
+    display-name: "&bDiamant"
+    lore:
+      - "&7La gemme la plus rare."
+    honour: 50
+    amount: 4
+    slot: 16
+
+  - type: EMERALD
+    display-name: "&aÉmeraude"
+    lore:
+      - "&7La monnaie des villageois."
+    honour: 40
+    amount: 4
+    slot: 28
+
+  # Example of an ItemsAdder custom item:
+  # - type: "skyblock:jade_fragment"
+  #   display-name: "&2Fragment de Jade"
+  #   icon: EMERALD   # vanilla fallback icon if ItemsAdder is absent
+  #   lore:
+  #     - "&7Un fragment mystérieux."
+  #   honour: 100
+  #   amount: 5
+  #   slot: 30

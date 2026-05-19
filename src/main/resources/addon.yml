@@ -11,6 +11,7 @@ authors: tastybento
 softdepend:
   - Level
   - ItemsAdder
+  - PlaceholderAPI
 
 permissions:
 # Non-command permissions

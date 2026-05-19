@@ -14,7 +14,13 @@ import world.bentobox.bentobox.api.commands.island.DefaultPlayerCommand;
 import world.bentobox.bentobox.api.configuration.Config;
 import world.bentobox.bentobox.api.configuration.WorldSettings;
 import world.bentobox.bskyblock.commands.IslandAboutCommand;
+import world.bentobox.bskyblock.commands.island.IslandDonateCommand;
+import world.bentobox.bskyblock.commands.island.IslandHonourCommand;
 import world.bentobox.bskyblock.commands.island.IslandPaliersCommand;
+import world.bentobox.bskyblock.donate.DonateManager;
+import world.bentobox.bskyblock.donate.DonateSettings;
+import world.bentobox.bskyblock.donate.HonourDataManager;
+import world.bentobox.bskyblock.donate.HonourPlaceholder;
 import world.bentobox.bskyblock.generators.ChunkGeneratorWorld;
 import world.bentobox.bskyblock.generators.CobblestoneGeneratorListener;
 import world.bentobox.bskyblock.paliers.PalierDataManager;
@@ -42,6 +48,11 @@ public class BSkyBlock extends GameModeAddon implements Listener {
     private PalierSettings palierSettings;
     private PalierManager palierManager;
 
+    // Donate / Honour system
+    private HonourDataManager honourDataManager;
+    private DonateSettings donateSettings;
+    private DonateManager donateManager;
+
     @Override
     public void onLoad() {
         // Save the default config from config.yml
@@ -60,6 +71,8 @@ public class BSkyBlock extends GameModeAddon implements Listener {
                 super.setup();
                 new IslandAboutCommand(this);
                 new IslandPaliersCommand(this);
+                new IslandDonateCommand(this);
+                new IslandHonourCommand(this);
             }
         };
         adminCommand = new DefaultAdminCommand(this) {};
@@ -88,6 +101,17 @@ public class BSkyBlock extends GameModeAddon implements Listener {
         palierManager = new PalierManager(this, palierDataManager, palierSettings);
         PalierListener.register(this, palierManager, palierSettings);
 
+        // Donate / Honour
+        honourDataManager = new HonourDataManager(this);
+        donateSettings = new DonateSettings(this);
+        donateManager = new DonateManager(this, honourDataManager, donateSettings);
+
+        // PlaceholderAPI
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new HonourPlaceholder(this).register();
+            log("PlaceholderAPI found - honour placeholders registered.");
+        }
+
         // Cobblestone generator
         registerListener(new CobblestoneGeneratorListener(this));
     }
@@ -114,6 +138,10 @@ public class BSkyBlock extends GameModeAddon implements Listener {
     public PalierDataManager getPalierDataManager() { return palierDataManager; }
     public PalierSettings getPalierSettings() { return palierSettings; }
     public PalierManager getPalierManager() { return palierManager; }
+
+    public HonourDataManager getHonourDataManager() { return honourDataManager; }
+    public DonateSettings getDonateSettings() { return donateSettings; }
+    public DonateManager getDonateManager() { return donateManager; }
 
     @Override
     public void createWorlds() {
@@ -206,6 +234,12 @@ public class BSkyBlock extends GameModeAddon implements Listener {
     public void allLoaded() {
         // Save settings. This will occur after all addons have loaded
         this.saveWorldSettings();
+        // Re-register donate/honour commands last so they override any same-named command
+        // registered by other addons (e.g. Level addon registers its own /is donate).
+        getPlayerCommand().ifPresent(cmd -> {
+            new IslandDonateCommand(cmd);
+            new IslandHonourCommand(cmd);
+        });
     }
 
 }
