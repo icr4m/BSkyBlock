@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -99,6 +100,19 @@ class BSkyBlockTest extends CommonTestSetup {
                 tempJarOutputStream.putNextEntry(entry);
                 while ((bytesRead = fis.read(buffer)) != -1) {
                     tempJarOutputStream.write(buffer, 0, bytesRead);
+                }
+            }
+            // Add all resource files that onEnable might need via saveResource
+            for (String resource : new String[]{"paliers.yml", "generator.yml"}) {
+                try (InputStream is = BSkyBlockTest.class.getResourceAsStream("/" + resource)) {
+                    if (is != null) {
+                        tempJarOutputStream.putNextEntry(new JarEntry(resource));
+                        byte[] buffer = new byte[1024];
+                        int bytesRead;
+                        while ((bytesRead = is.read(buffer)) != -1) {
+                            tempJarOutputStream.write(buffer, 0, bytesRead);
+                        }
+                    }
                 }
             }
         }

@@ -6,14 +6,14 @@ import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bskyblock.BSkyBlock;
 import world.bentobox.bskyblock.paliers.gui.PaliersGUI;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class IslandPaliersCommand extends CompositeCommand {
 
     public IslandPaliersCommand(CompositeCommand parent) {
-        super(parent, "paliers", "p");
+        super(parent, "paliers");
     }
 
     @Override
@@ -36,6 +36,12 @@ public class IslandPaliersCommand extends CompositeCommand {
 
     @Override
     public Optional<List<String>> tabComplete(User user, String alias, List<String> args) {
-        return Optional.of(Collections.emptyList());
+        BSkyBlock addon = (BSkyBlock) getAddon();
+        String prefix = args.isEmpty() ? "" : args.get(args.size() - 1).toLowerCase();
+        List<String> suggestions = addon.getPalierSettings().getPaliers().stream()
+                .map(p -> String.valueOf(p.getId()))
+                .filter(id -> id.startsWith(prefix))
+                .collect(Collectors.toList());
+        return Optional.of(suggestions);
     }
 }
