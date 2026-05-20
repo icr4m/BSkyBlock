@@ -21,6 +21,8 @@ import world.bentobox.bskyblock.donate.DonateManager;
 import world.bentobox.bskyblock.donate.DonateSettings;
 import world.bentobox.bskyblock.donate.HonourDataManager;
 import world.bentobox.bskyblock.donate.HonourPlaceholder;
+import world.bentobox.bskyblock.generator.GeneratorCostListener;
+import world.bentobox.bskyblock.generator.GeneratorCostSettings;
 import world.bentobox.bskyblock.generators.ChunkGeneratorWorld;
 import world.bentobox.bskyblock.generators.CobblestoneGeneratorListener;
 import world.bentobox.bskyblock.paliers.PalierDataManager;
@@ -52,6 +54,9 @@ public class BSkyBlock extends GameModeAddon implements Listener {
     private HonourDataManager honourDataManager;
     private DonateSettings donateSettings;
     private DonateManager donateManager;
+
+    // Generator item costs
+    private GeneratorCostSettings generatorCostSettings;
 
     @Override
     public void onLoad() {
@@ -105,6 +110,10 @@ public class BSkyBlock extends GameModeAddon implements Listener {
         honourDataManager = new HonourDataManager(this);
         donateSettings = new DonateSettings(this);
         donateManager = new DonateManager(this, honourDataManager, donateSettings);
+
+        // Generator item costs
+        generatorCostSettings = new GeneratorCostSettings(this);
+        GeneratorCostListener.register(this, generatorCostSettings);
 
         // PlaceholderAPI
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
